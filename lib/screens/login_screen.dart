@@ -94,10 +94,16 @@ class _LoginForm extends StatelessWidget {
           ),
           const SizedBox(height: 30),
           MaterialButton(
-            onPressed: () {
-              if (!loginForm.isValidForm()) return;
-              Navigator.pushReplacementNamed(context, "home");
-            },
+            onPressed: loginForm.isLoading
+                ? null
+                : () async {
+                    FocusScope.of(context).unfocus();
+                    if (!loginForm.isValidForm()) return;
+                    loginForm.isLoading = true;
+                    Future.delayed(const Duration(seconds: 2));
+                    loginForm.isLoading = false;
+                    Navigator.of(context).pushReplacementNamed("home");
+                  },
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             disabledColor: Colors.grey,
@@ -105,9 +111,9 @@ class _LoginForm extends StatelessWidget {
             color: Colors.deepPurple,
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
-              child: const Text(
-                "Ingresar",
-                style: TextStyle(color: Colors.white),
+              child: Text(
+                loginForm.isLoading ? "Espere" : "Ingresar",
+                style: const TextStyle(color: Colors.white),
               ),
             ),
           )
