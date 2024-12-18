@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:products_sample_app/providers/login_form_provider.dart';
+import 'package:provider/provider.dart';
+
 import 'package:products_sample_app/ui/input_decorations.dart';
 import 'package:products_sample_app/widgets/widgets.dart';
 
@@ -20,7 +23,12 @@ class LoginScreen extends StatelessWidget {
                     Text("Login",
                         style: Theme.of(context).textTheme.headlineSmall),
                     const SizedBox(height: 30),
-                    const _LoginForm()
+                    ChangeNotifierProvider(
+                      create: (_) {
+                        return LoginFormProvider();
+                      },
+                      child: const _LoginForm(),
+                    )
                   ],
                 ),
               ),
@@ -41,8 +49,9 @@ class _LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loginForm = Provider.of<LoginFormProvider>(context);
     return Form(
-      
+      key: loginForm.formKey,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       child: Column(
         children: [
