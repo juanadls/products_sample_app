@@ -56,6 +56,9 @@ class _LoginForm extends StatelessWidget {
       child: Column(
         children: [
           TextFormField(
+            onChanged: (value) {
+              loginForm.email = value;
+            },
             validator: (value) {
               String pattern =
                   r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -73,6 +76,9 @@ class _LoginForm extends StatelessWidget {
           ),
           const SizedBox(height: 30),
           TextFormField(
+            onChanged: (value) {
+              loginForm.password = value;
+            },
             validator: (value) {
               return (value != null && value.length >= 6)
                   ? null
@@ -88,19 +94,22 @@ class _LoginForm extends StatelessWidget {
           ),
           const SizedBox(height: 30),
           MaterialButton(
-            onPressed: () {},
+            onPressed: () {
+              if (!loginForm.isValidForm()) return;
+              Navigator.pushReplacementNamed(context, "home");
+            },
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             disabledColor: Colors.grey,
             elevation: 0,
             color: Colors.deepPurple,
             child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
-                child: const Text(
-                  "Ingresar",
-                  style: TextStyle(color: Colors.white),
-                )),
+              padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
+              child: const Text(
+                "Ingresar",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
           )
         ],
       ),
