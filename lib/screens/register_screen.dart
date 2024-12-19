@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:products_sample_app/providers/login_form_provider.dart';
+import 'package:products_sample_app/services/services.dart';
 import 'package:provider/provider.dart';
 
 import 'package:products_sample_app/ui/input_decorations.dart';
@@ -110,11 +111,19 @@ class _LoginForm extends StatelessWidget {
                 ? null
                 : () async {
                     FocusScope.of(context).unfocus();
+                    final authservice =
+                        Provider.of<AuthService>(context, listen: false);
                     if (!loginForm.isValidForm()) return;
                     loginForm.isLoading = true;
-                    Future.delayed(const Duration(seconds: 2));
-                    loginForm.isLoading = false;
-                    Navigator.of(context).pushReplacementNamed("home");
+                    final String? errorMessage = await authservice.createUser(
+                        loginForm.email, loginForm.password);
+
+                    if (errorMessage == null) {
+                      Navigator.of(context).pushReplacementNamed("home");
+                    } else {
+                      print(errorMessage);
+                      loginForm.isLoading = false;
+                    }
                   },
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
