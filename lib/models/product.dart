@@ -33,4 +33,16 @@ class Product {
         "picture": picture,
         "price": price,
       };
+
+
+//make a copy of products
+  Product copyWith() {
+    return Product(
+      available: available,
+      name: name,
+      picture: picture,
+      price: price,
+      id: id,
+    );
+  }
 }
