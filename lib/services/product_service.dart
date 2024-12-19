@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../models/product.dart';
 
@@ -11,9 +12,7 @@ class ProductService extends ChangeNotifier {
   final List<Product> products = [];
   late Product selectedProduct;
 
-
   final storage = const FlutterSecureStorage();
-
 
   bool isLoading = true;
   bool isSaving = false;
@@ -26,7 +25,8 @@ class ProductService extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
     //1. Armas la url
-    final url = Uri.https(_baseUrl, "products.json", {"auth": await storage.read(key: "token" ?? "")});
+    final url = Uri.https(_baseUrl, "products.json",
+        {"auth": await storage.read(key: "token" ?? "")});
 
     //2. Esperas la respuesta de la url que armaste
     final resp = await http.get(url);
