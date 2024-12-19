@@ -16,8 +16,9 @@ class ProductService extends ChangeNotifier {
     loadProducts();
   }
 
-// <List<Product>>
-  Future loadProducts() async {
+  Future<List<Product>> loadProducts() async {
+    isLoading = true;
+    notifyListeners();
     //1. Armas la url
     final url = Uri.https(_baseUrl, "products.json");
 
@@ -33,5 +34,9 @@ class ProductService extends ChangeNotifier {
       tempProduct.id = key;
       products.add(tempProduct);
     });
+
+    isLoading = false;
+    notifyListeners();
+    return products;
   }
 }
