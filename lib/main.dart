@@ -4,6 +4,8 @@ import 'package:products_sample_app/screens/screens.dart';
 import 'package:products_sample_app/services/services.dart';
 import 'package:provider/provider.dart';
 
+import 'services/notification_service.dart';
+
 void main() {
   runApp(const AppState());
 }
@@ -37,6 +39,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      scaffoldMessengerKey: NotificationService.messengerKey,
       debugShowCheckedModeBanner: false,
       title: 'Products Sample App',
       theme: ThemeData.light().copyWith(
