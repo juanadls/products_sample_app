@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:products_sample_app/screens/home_screen.dart';
 import 'package:products_sample_app/screens/login_screen.dart';
+import 'package:products_sample_app/screens/product_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,6 +27,9 @@ class MyApp extends StatelessWidget {
         },
         "home": (_) {
           return const HomeScreen();
+        },
+        "product": (_) {
+          return const ProductScreen();
         }
       },
     );
