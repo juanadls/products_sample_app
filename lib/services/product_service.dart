@@ -11,6 +11,10 @@ class ProductService extends ChangeNotifier {
   final List<Product> products = [];
   late Product selectedProduct;
 
+
+  final storage = const FlutterSecureStorage();
+
+
   bool isLoading = true;
   bool isSaving = false;
 
@@ -22,7 +26,7 @@ class ProductService extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
     //1. Armas la url
-    final url = Uri.https(_baseUrl, "products.json");
+    final url = Uri.https(_baseUrl, "products.json", {"auth": await storage.read(key: "token" ?? "")});
 
     //2. Esperas la respuesta de la url que armaste
     final resp = await http.get(url);
