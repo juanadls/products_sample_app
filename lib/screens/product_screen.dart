@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:products_sample_app/providers/providers.dart';
 import 'package:products_sample_app/ui/input_decorations.dart';
 import 'package:products_sample_app/widgets/widgets.dart';
@@ -6,7 +7,6 @@ import 'package:provider/provider.dart';
 
 import '../services/product_service.dart';
 
-//FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}'))
 class ProductScreen extends StatelessWidget {
   const ProductScreen({super.key});
 
@@ -33,6 +33,7 @@ class _ProductScreenBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
         child: Column(
           children: [
             Stack(
@@ -112,6 +113,10 @@ class _ProductForm extends StatelessWidget {
             ),
             const SizedBox(height: 30),
             TextFormField(
+              inputFormatters: [
+                ///Alllows only numbers
+                FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}'))
+              ],
               initialValue: productFormProvider.product.price.toString(),
               onChanged: (value) {
                 productFormProvider.product.price.toString() == value;
@@ -131,7 +136,9 @@ class _ProductForm extends StatelessWidget {
               value: productFormProvider.product.available,
               title: const Text("Disponible"),
               activeColor: Colors.indigo,
-              onChanged: (value) {},
+              onChanged: (value) {
+                productFormProvider.updateAvailability(value);
+              },
             ),
             const SizedBox(height: 30),
           ],
