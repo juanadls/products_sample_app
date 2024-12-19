@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:products_sample_app/screens/home_screen.dart';
-import 'package:products_sample_app/screens/login_screen.dart';
 import 'package:products_sample_app/screens/product_screen.dart';
-import 'package:products_sample_app/screens/register_screen.dart';
+import 'package:products_sample_app/screens/screens.dart';
 import 'package:products_sample_app/services/services.dart';
 import 'package:provider/provider.dart';
 
@@ -40,7 +38,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Products Sample APP',
+      title: 'Products Sample App',
       theme: ThemeData.light().copyWith(
           scaffoldBackgroundColor: Colors.grey[300],
           floatingActionButtonTheme: const FloatingActionButtonThemeData(
@@ -59,6 +57,9 @@ class MyApp extends StatelessWidget {
         },
         "register": (_) {
           return const RegisterScreen();
+        },
+        "checkAuth": (_) {
+          return const CheckAuthScreen();
         }
       },
     );
