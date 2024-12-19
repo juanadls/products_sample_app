@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:products_sample_app/screens/home_screen.dart';
 import 'package:products_sample_app/screens/login_screen.dart';
 import 'package:products_sample_app/screens/product_screen.dart';
+import 'package:products_sample_app/screens/register_screen.dart';
 import 'package:products_sample_app/services/services.dart';
 import 'package:provider/provider.dart';
 
@@ -50,6 +51,9 @@ class MyApp extends StatelessWidget {
         },
         "product": (_) {
           return const ProductScreen();
+        },
+        "register": (_) {
+          return const RegisterScreen();
         }
       },
     );
