@@ -151,7 +151,7 @@ class _ProductDetails extends StatelessWidget {
 class _BackgoundImage extends StatelessWidget {
   const _BackgoundImage(this.url);
 
-  final String url;
+  final String? url;
 
   @override
   Widget build(BuildContext context) {
@@ -160,10 +160,15 @@ class _BackgoundImage extends StatelessWidget {
       child: SizedBox(
         width: double.infinity,
         height: 400,
-        child: FadeInImage(
-            fit: BoxFit.cover,
-            placeholder: const AssetImage("assets/jar-loading.gif"),
-            image: NetworkImage(url)),
+        child: url == null
+            ? const Image(
+                image: AssetImage("assets/no-image.png"),
+                fit: BoxFit.cover,
+              )
+            : FadeInImage(
+                fit: BoxFit.cover,
+                placeholder: const AssetImage("assets/jar-loading.gif"),
+                image: NetworkImage(url!)),
       ),
     );
   }
