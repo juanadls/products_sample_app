@@ -5,7 +5,7 @@ class Product {
   String name;
   String picture;
   int price;
-  String id;
+  String? id;
 
   Product({
     required this.available,
@@ -33,7 +33,6 @@ class Product {
         "picture": picture,
         "price": price,
       };
-
 
 //make a copy of products
   Product copyWith() {

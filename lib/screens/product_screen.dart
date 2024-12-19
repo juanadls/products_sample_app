@@ -31,6 +31,7 @@ class _ProductScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final productFormProvider = Provider.of<ProductFormProvider>(context);
     return Scaffold(
       body: SingleChildScrollView(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
@@ -74,7 +75,11 @@ class _ProductScreenBody extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () async {
+          if (!productFormProvider.isValidForm()) return;
+          await productsService
+              .saveOrCreateProduct(productFormProvider.product);
+        },
         child: const Icon(Icons.save_outlined),
       ),
     );
@@ -94,55 +99,58 @@ class _ProductForm extends StatelessWidget {
         decoration: _buildBoxDecoration(),
         width: double.infinity,
         child: Form(
+            key: productFormProvider.formKey,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
-          children: [
-            const SizedBox(height: 10),
-            TextFormField(
-              initialValue: productFormProvider.product.name,
-              onChanged: (value) {
-                productFormProvider.product.name == value;
-              },
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "El nombre es obligtorio";
-                }
-                return value;
-              },
-              decoration: InputDecorations.authInpuDecoration(
-                  hintText: "Nombre del producto", labelText: "Nombre: "),
-            ),
-            const SizedBox(height: 30),
-            TextFormField(
-              inputFormatters: [
-                ///Alllows only numbers
-                FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}'))
+              children: [
+                const SizedBox(height: 10),
+                TextFormField(
+                  initialValue: productFormProvider.product.name,
+                  onChanged: (value) {
+                    productFormProvider.product.name == value;
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "El nombre es obligtorio";
+                    }
+                    return value;
+                  },
+                  decoration: InputDecorations.authInpuDecoration(
+                      hintText: "Nombre del producto", labelText: "Nombre: "),
+                ),
+                const SizedBox(height: 30),
+                TextFormField(
+                  inputFormatters: [
+                    ///Alllows only numbers
+                    FilteringTextInputFormatter.allow(
+                        RegExp(r'^(\d+)?\.?\d{0,2}'))
+                  ],
+                  initialValue: productFormProvider.product.price.toString(),
+                  onChanged: (value) {
+                    productFormProvider.product.price.toString() == value;
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "El precio es obligtorio";
+                    }
+                    return value;
+                  },
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecorations.authInpuDecoration(
+                      hintText: "150", labelText: "Precio: "),
+                ),
+                const SizedBox(height: 30),
+                SwitchListTile.adaptive(
+                  value: productFormProvider.product.available,
+                  title: const Text("Disponible"),
+                  activeColor: Colors.indigo,
+                  onChanged: (value) {
+                    productFormProvider.updateAvailability(value);
+                  },
+                ),
+                const SizedBox(height: 30),
               ],
-              initialValue: productFormProvider.product.price.toString(),
-              onChanged: (value) {
-                productFormProvider.product.price.toString() == value;
-              },
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "El precio es obligtorio";
-                }
-                return value;
-              },
-              keyboardType: TextInputType.number,
-              decoration: InputDecorations.authInpuDecoration(
-                  hintText: "150", labelText: "Precio: "),
-            ),
-            const SizedBox(height: 30),
-            SwitchListTile.adaptive(
-              value: productFormProvider.product.available,
-              title: const Text("Disponible"),
-              activeColor: Colors.indigo,
-              onChanged: (value) {
-                productFormProvider.updateAvailability(value);
-              },
-            ),
-            const SizedBox(height: 30),
-          ],
-        )),
+            )),
       ),
     );
   }

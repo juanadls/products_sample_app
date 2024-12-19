@@ -22,7 +22,7 @@ class ProductCard extends StatelessWidget {
           alignment: Alignment.bottomLeft,
           children: [
             _BackgoundImage(product.picture),
-            _ProductDetails(product.name, product.id),
+            _ProductDetails(product.name, product.id!),
             Positioned(
               top: 0,
               right: 0,
